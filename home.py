@@ -15,7 +15,7 @@ input_parser.add_argument('dim',
                           help='dimension of the model')
 
 input_parser.add_argument('des',
-                          type=int,
+                          type=str,
                           help='description of the model')
 
 # Execute the parse_args() method
