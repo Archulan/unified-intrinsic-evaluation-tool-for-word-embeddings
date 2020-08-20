@@ -1,9 +1,7 @@
 import argparse
-import os
 # from flask import render_template, redirect, url_for, request, flash
 # from werkzeug.utils import secure_filename
 import os
-# import wget
 from distance import similarity
 from word_analogy import analogy
 from OutlierDetection import outlier as out
@@ -43,8 +41,6 @@ input_parser.add_argument('-v',
 
 # Execute the parse_args() method
 args = input_parser.parse_args()
-
-print(args.name,'args')
 
 model = args.model
 dim = args.dim
