@@ -4,7 +4,7 @@ import argparse
 input_parser = argparse.ArgumentParser(prog='Unified intrinsic evaluation tool for word embeddings',
                                        usage='%(prog)s [options] path',
                                        description='Input your model and dimension size')
-
+input_parser.version = '1.0'
 # Add the arguments
 input_parser.add_argument('name',
                           type=str,
@@ -16,11 +16,11 @@ input_parser.add_argument('dim',
 
 input_parser.add_argument('des',
                           type=str,
-                          help='description of the model')
+                          help='description about the model')
 
 input_parser.add_argument('-v',
-                          type=float,
-                          help='Tool version')
+                          help='Tool version',
+                          action='version')
 
 # Execute the parse_args() method
 args = input_parser.parse_args()
