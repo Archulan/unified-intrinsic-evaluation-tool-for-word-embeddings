@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 
 .idea/
+concept_cate
+question-data
+wiki-sem
+word-sim
