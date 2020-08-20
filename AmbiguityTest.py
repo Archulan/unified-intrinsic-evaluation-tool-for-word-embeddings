@@ -69,7 +69,7 @@ def pprint(result):
     print("---------------------------------------")
 
 if __name__ == "__main__":
-    N = 100 # number of closest words that will be shownt
+    N = 100 # number of closest words that will be shown
     model="FastText-wiki-news-300d-1M.vec"
     W, vocab, ivocab = generate(model)
     filename = '../MSD/MSD-1030.txt'

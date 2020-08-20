@@ -1,18 +1,9 @@
-import argparse
 import numpy as np
-import sys
-
-from collections import defaultdict
-from scipy import linalg, stats
+from scipy import linalg
 import io
+
 def generate(filename,dim):
-    #parser = argparse.ArgumentParser()
-   # parser.add_argument('--vocab_file', default='vocab.txt', type=str)
-   # parser.add_argument('--vectors_file', default='vectors.txt', type=str)
-    #args = parser.parse_args()
     words=[]
-   # with open(args.vocab_file, 'r') as f:
-   #     words = [x.rstrip().split(' ')[0] for x in f.readlines()]
     with io.open(filename, 'r',encoding="utf8") as f:
         vectors = {}
         for line in f:
@@ -74,7 +65,6 @@ def cos(W,word1,word2,vocab):
     
 def evaluate(filenames,prefix, W, vocab, ivocab,words,result):
 
-    
     results=[]
     #for i in range(len(filenames)):
     fulldata = []
@@ -142,7 +132,3 @@ def analogy(filename,dim):
     result.append({"#":5, "Test": "Sem analogy", "Score": score2*100, "OOV":str(oov1)+"/"+str(count_sem),"Expand":result_sem})
     print("analogy test done..")
     return result
-
-    
-    
-    

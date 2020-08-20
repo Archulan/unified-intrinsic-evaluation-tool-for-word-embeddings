@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from nltk.cluster import KMeansClusterer
 import nltk
 import numpy as np
@@ -7,6 +6,7 @@ from sklearn import metrics
 import pandas as pd
 import csv
 import io
+
 # training data
 def constructEmbedding(filepath,vectors,words,mapcate):
     labels_true=[]

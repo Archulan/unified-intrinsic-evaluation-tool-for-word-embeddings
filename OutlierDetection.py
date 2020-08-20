@@ -249,27 +249,9 @@ def outlier(path_vectors,dim):
         result[cluster.topic]=(scoreOPP_Cluster,accuracyCluster,len(cluster.outliers))
     scoreOPP = ((sumPositionsPercentage * 1.0) / countTotalOutliers) * 100
     accuracy = ((numOutliersDetected * 1.0) / countTotalOutliers) * 100.0
-    #print("\n\n ---- OVERALL RESULTS ----\n")
-    #print("OPP score: " + str(scoreOPP))
-    #print("Accuracy: " + str(accuracy))
-    #print("\nTotal number of outliers: " + str(countTotalOutliers))
-    #pprint(result)
     results["#"]=7
     results["Test"] ="Outlier Detection"
     results["Score"] =accuracy
     results["OOV"] =str(countTotalOutliers)+"/"+str(TotalOutliers)
     results["OOP"] =scoreOPP
     return results
-
-
-
-
-
-
-
-
-
-
-
-
-
