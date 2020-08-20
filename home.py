@@ -18,6 +18,10 @@ input_parser.add_argument('des',
                           type=str,
                           help='description of the model')
 
+input_parser.add_argument('-v',
+                          type=float,
+                          help='Tool version')
+
 # Execute the parse_args() method
 args = input_parser.parse_args()
 
