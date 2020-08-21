@@ -1,11 +1,11 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 import json
 import numpy as np
-import sklearn.decomposition as decomposition
-import sklearn.neighbors as neighbors
 from matplotlib import pyplot
+from __future__ import division
+from __future__ import print_function
+import sklearn.neighbors as neighbors
+from __future__ import absolute_import
+import sklearn.decomposition as decomposition
 
 # Round all floats in JSON dump to 5 decimal places.
 json.encoder.FLOAT_REPR = lambda x: format(x, '.5f')

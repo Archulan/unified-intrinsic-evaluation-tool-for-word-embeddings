@@ -1,6 +1,4 @@
-
 import numpy as np
-
 from scipy import linalg, stats
 from prettytable import PrettyTable
 

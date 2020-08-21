@@ -1,6 +1,6 @@
+import io
 import numpy as np
 from scipy import linalg
-import io
 
 def generate(filename,dim):
     words=[]

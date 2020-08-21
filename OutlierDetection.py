@@ -1,15 +1,8 @@
-# -*- coding: utf-8 -*-
-
-### Author: Jose Camacho Collados
-
 import os
-import fileinput
-from math import sqrt
-import operator
-import sys
-import numpy as np
-
 import io
+import operator
+import numpy as np
+from math import sqrt
 
 class OutlierDetectionCluster:
     # Class modeling a cluster of the dataset, composed of its topic name, its corresponding elements and the outliers to be detected

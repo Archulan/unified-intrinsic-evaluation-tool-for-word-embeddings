@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from nltk.cluster import KMeansClusterer
+import io
+import csv
 import nltk
 import numpy as np
-from sklearn import metrics
 import pandas as pd
-import csv
-import io
+from sklearn import metrics
+from nltk.cluster import KMeansClusterer
 
 # training data
 def constructEmbedding(filepath,vectors,words,mapcate):

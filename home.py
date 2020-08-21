@@ -1,11 +1,11 @@
+import os
 import argparse
 # from flask import render_template, redirect, url_for, request, flash
 # from werkzeug.utils import secure_filename
-import os
 from distance import similarity
 from word_analogy import analogy
-from OutlierDetection import outlier as out
 from conceptcate import categorize
+from OutlierDetection import outlier as out
 
 # Create the parser
 input_parser = argparse.ArgumentParser(prog='Unified intrinsic evaluation tool for word embeddings',
@@ -52,6 +52,8 @@ result3 = out(model,dim)
 result.extend(result1)
 result.append(result2)
 result.append(result3)
+
+print(result,'res')
 
 sim, rw, synana, semana, ambi, concept, outlier, oop = 0, 0, 0, 0, 0, 0, 0, 0
 for res in result:

@@ -1,9 +1,9 @@
+import io
 import numpy as np
 from scipy import linalg, stats
 from collections import defaultdict
-import io
-def generate(filename,dim):
 
+def generate(filename,dim):
     words=[]
     with io.open(filename, 'r',encoding="utf8") as f:
         vectors = {}
