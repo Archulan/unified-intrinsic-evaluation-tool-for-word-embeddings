@@ -92,7 +92,7 @@ def similarity(filename,dim):
     filenames = [
         'EN-WS-353-REL.txt','EN-WS-353-SIM.txt','EN-RW-STANFORD.txt','EN-MEN-TR-3k.txt','EN-VERB-143.txt','MSD-1030.txt'
     ]
-    prefix = 'c:word-sim'
+    prefix = 'word-sim'
     dataset=defaultdict(list)
     for file_name in filenames:
         with io.open('%s/%s' % (prefix, file_name), 'r',encoding='utf8') as f:

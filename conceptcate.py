@@ -63,7 +63,7 @@ def evaluate(labels_true, labels_pred,count):
     print("---------------------------------------")
     return results
 def categorize(embeddingPath,dim):
-    datasetpath = 'c:\\users\\hp\\Desktop\\fyp\\data\\Evaluator\\flask\\app\\evaluators\\concept_cate\\bless.csv'
+    datasetpath = 'concept_cate/bless.csv'
     NUM_CLUSTERS = 17
     print("Concept categorization test is running....")
     # map category

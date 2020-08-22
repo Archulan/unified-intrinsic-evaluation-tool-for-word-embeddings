@@ -12,17 +12,6 @@ json.encoder.FLOAT_REPR = lambda x: format(x, '.5f')
 
 METRICS = ['cosine', 'euclidean']
 
-#FLAGS = flags.FLAGS
-
-#flags.DEFINE_integer(
- #   'max_k',
-#250,
-#    'Max value of K for defining local neighborhoods (default = 250)')
-#flags.DEFINE_string('embeddings_file', None, 'Path to embeddings file (tsv).')
-#flags.DEFINE_string('metadata_file', None, 'Path to metadata file (tsv).')
-#flags.DEFINE_string('outfile', None, 'Path to write preprocessed data (json).')
-
-
 def load_embeddings(filepath):
     feed = open(filepath,'r', encoding="utf8").read()
     num_lines = len(feed.splitlines())
