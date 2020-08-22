@@ -1,7 +1,5 @@
 import os
 import argparse
-# from flask import render_template, redirect, url_for, request, flash
-# from werkzeug.utils import secure_filename
 from distance import similarity
 from word_analogy import analogy
 from conceptcate import categorize
