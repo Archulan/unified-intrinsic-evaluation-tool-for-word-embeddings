@@ -1,7 +1,7 @@
 import os
 import argparse
 from distance import similarity
-from word_analogy import analogy
+from wordAnalogy import analogy
 from conceptCategorization import categorize
 from outlierDetection import outlier as out
 

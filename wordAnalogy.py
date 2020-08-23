@@ -1,10 +1,11 @@
 import io
 import numpy as np
+from tqdm import tqdm
 from scipy import linalg
 
 def generate(filename,dim):
     words=[]
-    with io.open(filename, 'r',encoding="utf8") as f:
+    with tqdm(io.open(filename, 'r',encoding="utf8")) as f:
         vectors = {}
         for line in f:
             vals = line.rstrip().split(' ')
@@ -30,12 +31,9 @@ def generate(filename,dim):
         norm = (vec.T / d).T
         W_norm[vocab[word], :]=norm
         #W[vocab[word], :] = v
-    
-    
-    
+
     print("vectors loaded")
     return (W_norm, vocab, ivocab,words)
-
 
 def distance(W, vocab, ivocab, input_term):
     vecs = {}
