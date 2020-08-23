@@ -108,7 +108,7 @@ def analogy(filename,dim):
     results={}
     result,result_sem,result_syn=[],[],[]
     oov1,oov2=0,0
-    for file in filenames:
+    for file in tqdm(filenames):
       evaluate(file,prefix,W,vocab,ivocab,words,results)
     semfiles=['currency','capital-common-countries','capital-world','city-in-state', 'family']
     correct_syn, correct_sem, count_syn, count_sem=0,0,0,0
