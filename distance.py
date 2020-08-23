@@ -79,9 +79,9 @@ def evaluate(word_dict,vocab,dataset):
             else:
                 notfound += 1
         temp["#"] = ""
-        temp["Score"]=rho(label, pred) * 100
-        temp["OOV"]=str(notfound)+str("/")+str(found+notfound)
         temp["Test"]=file_name
+        temp["Score"] = rho(label, pred) * 100
+        temp["OOV"] = str(notfound) + str("/") + str(found + notfound)
         result.append(temp)
     return result
 
@@ -89,7 +89,6 @@ def evaluate(word_dict,vocab,dataset):
 def similarity(filename,dim):
     score,notfound,total=0,0,0
     results=[]
-    collections=[]
     W, vocab, ivocab = generate(filename,dim)
     filenames = [
         'EN-WS-353-REL.txt','EN-WS-353-SIM.txt','EN-RW-STANFORD.txt','EN-MEN-TR-3k.txt','EN-VERB-143.txt','MSD-1030.txt'
@@ -102,7 +101,6 @@ def similarity(filename,dim):
                 dataset[file_name.replace(".txt","")].append([float(w) if i == 2 else w for i, w in enumerate(line.rstrip().split())])
 
     result=evaluate(W,vocab,dataset)
-    pprint(result)
     temp,temp1={},{}
     for k in result:
         if(k["Test"] == "EN-RW-STANFORD"):
@@ -115,16 +113,18 @@ def similarity(filename,dim):
             score += k["Score"]
             notfound += int(k["OOV"].split("/")[0])
             total += int(k["OOV"].split("/")[1])
+    print("Benchmarks test results........")
+    pprint(result)
     result.remove(temp)
     result.remove(temp1)
     results.append({"#":3,"Test":"Word similarity","Score":str(score/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
-    collections.extend(results)
-    collections.extend(result)
-    pprint(collections)
+    print("Final results......")
+    pprint(results)
+
     return results
 
 def pprint(collections):
-    print("Word similarity test results")
+
     x = PrettyTable(["#","Test", "Score (rho)","Not Found/Total"])
     x.align["Dataset"] = "l"
     for result in collections:

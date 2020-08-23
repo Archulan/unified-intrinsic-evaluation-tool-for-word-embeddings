@@ -146,7 +146,7 @@ def pprint(collections):
         v = []
         for k, m in result.items():
             v.append(m)
-        x.add_row([v[1], v[2], v[3]])
+        x.add_row([ v[0],v[1], v[2]])
 
     print(x)
     print("---------------------------------------")
