@@ -2,6 +2,7 @@ import io
 import numpy as np
 from tqdm import tqdm
 from scipy import linalg, stats
+from prettytable import PrettyTable
 from collections import defaultdict
 
 def generate(filename,dim):
@@ -116,3 +117,17 @@ def similarity(filename,dim):
     result.remove(temp1)
     results.append({"#":3,"Test":"Word similarity","Score":str(score/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
     return results
+
+def pprint(result):
+    print("Word similarity test results")
+    x = PrettyTable(["Dataset", "Found", "Not Found", "Score (rho)"])
+    x.align["Dataset"] = "l"
+    i=0
+    score=0
+    for k, v in result.items():
+        x.add_row([k, v[0], v[1], v[2]])
+        if i!=2:
+            score+=v[2]
+    print (x)
+    print("---------------------------------------")
+    print("Similarity score", score)
