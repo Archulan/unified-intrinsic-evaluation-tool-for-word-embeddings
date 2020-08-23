@@ -39,8 +39,7 @@ input_parser.add_argument('-v',
 
 # Execute the parse_args() method
 args = input_parser.parse_args()
-
-model = args.model
+model = args.model.name
 dim = args.dim
 
 result = similarity(model, dim)
