@@ -71,7 +71,7 @@ def evaluate(filenames,prefix, W, vocab, ivocab,words,result):
     feed = io.open('%s/%s' % (prefix, filenames), 'r', encoding="utf8").read()
     num_lines = len(feed.splitlines())
     with io.open('%s/%s' % (prefix, filenames), 'r') as f:
-        for line in f:
+        for line in tqdm(f):
             row=line.rstrip().split()
             if False in [i in words for i in row]:
                 continue
