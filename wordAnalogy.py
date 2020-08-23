@@ -94,7 +94,7 @@ def evaluate(filenames,prefix, W, vocab, ivocab,words,result):
 def analogy(filename,dim):
     print("Word analogy test is running")
     W, vocab, ivocab,words = generate(filename,dim)
-
+    collections=[]
     filenames = [
         'currency.txt','capital-common-countries.txt','capital-world.txt',
         'city-in-state.txt', 'family.txt', 'gram1-adjective-to-adverb.txt',
@@ -117,16 +117,35 @@ def analogy(filename,dim):
           correct_sem += v[1]
           oov1+=v[3]
           print(v[1],v[2])
-          result_sem.append({"#":"","Test":k,"Score":v[0],"OOV":v[3]})
+          result_sem.append({"Test":k,"Score":v[0],"OOV":v[3]})
       else:
           count_syn += v[2]
           correct_syn += v[1]
           oov2 += v[3]
           print(v[1], v[2])
-          result_syn.append({"#":"","Test": k, "Score": v[0], "OOV": v[3]})
+          result_syn.append({"Test": k, "Score": v[0], "OOV": v[3]})
     score1=float(correct_syn)/count_syn
     score2=float(correct_sem)/count_sem
-    result.append({"#":4,"Test": "Syn analogy","Score":score1*100,"OOV":str(oov2)+"/"+str(count_syn),"Expand":result_syn})
-    result.append({"#":5, "Test": "Sem analogy", "Score": score2*100, "OOV":str(oov1)+"/"+str(count_sem),"Expand":result_sem})
+    result.append({"Test": "Syn analogy","Score":score1*100,"OOV":str(oov2)+"/"+str(count_syn),"Expand":result_syn})
+    result.append({ "Test": "Sem analogy", "Score": score2*100, "OOV":str(oov1)+"/"+str(count_sem),"Expand":result_sem})
+    collections.extend(result_sem)
+    collections.extend(result_syn)
+    pprint(collections)
+    print("Semantic analogy score: ",score2*100)
+    print("Syntactic analogy score: ", score1 * 100)
     print("analogy test done..")
     return result
+
+
+def pprint(collections):
+    print("Word analogy test results")
+    x = PrettyTable(["Test", "Score (rho)", "Not Found/Total"])
+    x.align["Dataset"] = "l"
+    for result in collections:
+        v = []
+        for k, m in result.items():
+            v.append(m)
+        x.add_row([v[1], v[2], v[3]])
+
+    print(x)
+    print("---------------------------------------")

@@ -55,11 +55,10 @@ def evaluate(labels_true, labels_pred,count):
     homo=metrics.homogeneity_score(labels_true, labels_pred)
     complete=metrics.completeness_score(labels_true, labels_pred)
     v_score=metrics.v_measure_score(labels_true, labels_pred)
-    results["#"] = 6
     results["Test"] = "Concept categorization"
     results["Score"] = v_score*100
     results["OOV"] = count
-
+    pprint(results)
     print("Concept categorization test done")
     print("---------------------------------------")
     return results
@@ -75,3 +74,8 @@ def categorize(embeddingPath,dim):
     labels_pred=cluster(embeddings,NUM_CLUSTERS)
     result=evaluate(labels_true,labels_pred,count)
     return result
+
+def pprint(collection):
+    for k, v in collection.items():
+        print(k," : ",v)
+    print("---------------------------------------")

@@ -175,14 +175,8 @@ def check(cluster, input_vectors):
     else:
         return False, cluster
 
-def pprint(result):
 
-    x = PrettyTable(["Topic", "Average outlier position", "Outliers detected percentage", "Number of outliers"])
-    x.align["Topic"] = "l"
-    for k, v in result.items():
-        x.add_row([k, v[0], v[1], v[2]])
-    print (x)
-    print("---------------------------------------")
+
 
 def outlier(path_vectors,dim):
     path_dataset = 'wiki-sem/'
@@ -245,9 +239,14 @@ def outlier(path_vectors,dim):
         result[cluster.topic]=(scoreOPP_Cluster,accuracyCluster,len(cluster.outliers))
     scoreOPP = ((sumPositionsPercentage * 1.0) / countTotalOutliers) * 100
     accuracy = ((numOutliersDetected * 1.0) / countTotalOutliers) * 100.0
-    results["#"]=7
     results["Test"] ="Outlier Detection"
     results["Score"] =accuracy
+    results["OOP"] = scoreOPP
     results["OOV"] =str(countTotalOutliers)+"/"+str(TotalOutliers)
-    results["OOP"] =scoreOPP
+    pprint(results)
     return results
+
+def pprint(collection):
+    for k, v in collection.items():
+        print(k," : ",v)
+    print("---------------------------------------")
