@@ -3,9 +3,7 @@ import io
 import operator
 import numpy as np
 from math import sqrt
-
-from prettytable import PrettyTable
-
+from tqdm import tqdm
 
 class OutlierDetectionCluster:
     # Class modeling a cluster of the dataset, composed of its topic name, its corresponding elements and the outliers to be detected
@@ -29,7 +27,7 @@ class OutlierDetectionDataset:
         listing = os.listdir(self.path)
         for in_file in listing:
             if in_file.endswith(".txt"):
-                with io.open(self.path + in_file, 'r', encoding="utf8") as cluster_file:
+                with tqdm(io.open(self.path + in_file, 'r', encoding="utf8")) as cluster_file:
                     cluster_name = in_file.replace(".txt", "")
                     set_elements = set()
                     set_outliers = set()

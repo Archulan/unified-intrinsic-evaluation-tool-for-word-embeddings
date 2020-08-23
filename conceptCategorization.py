@@ -13,7 +13,7 @@ def constructEmbedding(filepath,vectors,words,mapcate):
     labels_true=[]
     embeddings=[]
     count,found=0,0
-    with io.open(filepath, mode='r') as csv_file:
+    with tqdm(io.open(filepath, mode='r')) as csv_file:
         csv_reader = csv.DictReader(csv_file)
         for row in csv_reader:
             if row['word'] in words:
