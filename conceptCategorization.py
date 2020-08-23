@@ -4,6 +4,7 @@ import csv
 import nltk
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 from sklearn import metrics
 from nltk.cluster import KMeansClusterer
 
@@ -26,7 +27,7 @@ def constructEmbedding(filepath,vectors,words,mapcate):
 
 
 def loadvocab(filepath,dim):
-    with io.open(filepath, 'r',encoding="utf8") as f:
+    with tqdm(io.open(filepath, 'r',encoding="utf8")) as f:
         vectors = {}
         words=[]
         for line in f:

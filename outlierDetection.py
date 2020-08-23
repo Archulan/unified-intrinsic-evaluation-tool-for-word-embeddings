@@ -4,6 +4,9 @@ import operator
 import numpy as np
 from math import sqrt
 
+from prettytable import PrettyTable
+
+
 class OutlierDetectionCluster:
     # Class modeling a cluster of the dataset, composed of its topic name, its corresponding elements and the outliers to be detected
     def __init__(self, elements, outliers, topic=""):
