@@ -2,6 +2,7 @@ import io
 import numpy as np
 from tqdm import tqdm
 from scipy import linalg
+from prettytable import PrettyTable
 
 def generate(filename,dim):
     words=[]
