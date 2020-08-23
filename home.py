@@ -2,8 +2,8 @@ import os
 import argparse
 from distance import similarity
 from word_analogy import analogy
-from conceptcate import categorize
-from OutlierDetection import outlier as out
+from conceptCategorization import categorize
+from outlierDetection import outlier as out
 
 # Create the parser
 input_parser = argparse.ArgumentParser(prog='Unified intrinsic evaluation tool for word embeddings',
