@@ -50,8 +50,6 @@ result.extend(result1)
 result.append(result2)
 result.append(result3)
 
-print(result,'res')
-
 sim, rw, synana, semana, ambi, concept, outlier, oop = 0, 0, 0, 0, 0, 0, 0, 0
 for res in result:
     if res["Test"] == "Word similarity":

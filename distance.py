@@ -1,11 +1,14 @@
 import io
 import numpy as np
+from tqdm import tqdm
 from scipy import linalg, stats
+from prettytable import PrettyTable
 from collections import defaultdict
 
 def generate(filename,dim):
     words=[]
-    with io.open(filename, 'r',encoding="utf8") as f:
+    print('Reading model file')
+    with tqdm(io.open(filename, 'r',encoding="utf8")) as f:
         vectors = {}
         for line in f:
             vals = line.rstrip().split(' ')
@@ -13,7 +16,7 @@ def generate(filename,dim):
                 vectors[vals[0]] = [float(x) for x in vals[1:]]
                 words.append(vals[0])
     vocab_size = len(words)
-    print(vocab_size)
+    print('Vocabulary size:', vocab_size)
     vocab = {w: idx for idx, w in enumerate(words)}
     ivocab = {idx: w for idx, w in enumerate(words)}
 
@@ -25,10 +28,8 @@ def generate(filename,dim):
         W[vocab[word], :] = v
 
     # normalize each word vector to unit variance
-  
-    print("generate vectors list")
+    print("Generating vectors list")
     return (W, vocab, ivocab)
-
 
 def distance(W, vocab, ivocab, input_term):
     for idx, term in enumerate(input_term.split(' ')):
@@ -66,8 +67,8 @@ def rho(vec1,vec2):
 
 def evaluate(word_dict,vocab,dataset):
     result = []
-    print("Evaluate word similarity....")
-    for file_name, data in dataset.items():
+    print("Evaluating word similarity")
+    for file_name, data in tqdm(dataset.items()):
         pred, label, found, notfound,temp = [], [], 0, 0, {}
         for datum in data:
             if datum[0] in vocab and datum[1] in vocab:
@@ -116,3 +117,17 @@ def similarity(filename,dim):
     result.remove(temp1)
     results.append({"#":3,"Test":"Word similarity","Score":str(score/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
     return results
+
+def pprint(result):
+    print("Word similarity test results")
+    x = PrettyTable(["Dataset", "Found", "Not Found", "Score (rho)"])
+    x.align["Dataset"] = "l"
+    i=0
+    score=0
+    for k, v in result.items():
+        x.add_row([k, v[0], v[1], v[2]])
+        if i!=2:
+            score+=v[2]
+    print (x)
+    print("---------------------------------------")
+    print("Similarity score", score)
