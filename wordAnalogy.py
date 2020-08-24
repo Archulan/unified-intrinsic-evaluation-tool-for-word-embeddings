@@ -21,17 +21,14 @@ def generate(filename,dim):
     vector_dim = len(vectors[ivocab[0]])
     W = np.zeros((vocab_size, vector_dim))
     W_norm = np.zeros((vocab_size, vector_dim))
-    print(W_norm.shape)
-    count=0
+
     for word, v in vectors.items():
         if word == '<unk>':
             continue
         vec=np.array(v)
-        count+=1
         d = (np.sum((vec)** 2, ) ** (0.5))
         norm = (vec.T / d).T
         W_norm[vocab[word], :]=norm
-        #W[vocab[word], :] = v
 
     print("vectors loaded")
     return (W_norm, vocab, ivocab,words)
@@ -63,11 +60,7 @@ def cos(W,word1,word2,vocab):
     return np.dot(vec1,vec2)/(linalg.norm(vec1)*linalg.norm(vec2))
     
 def evaluate(filenames,prefix, W, vocab, ivocab,words,result):
-
-    results=[]
-    #for i in range(len(filenames)):
-    fulldata = []
-    val=[]
+    fulldata,val= [],[]
     feed = io.open('%s/%s' % (prefix, filenames), 'r', encoding="utf8").read()
     num_lines = len(feed.splitlines())
     with io.open('%s/%s' % (prefix, filenames), 'r') as f:
@@ -79,22 +72,18 @@ def evaluate(filenames,prefix, W, vocab, ivocab,words,result):
 
     if len(fulldata) == 0:
         print("ERROR: no lines of vocab kept for %s !" % filenames)
-        #continue
+
     for ques in fulldata:
         indices,dist=distance(W, vocab, ivocab, ques[:3])
         val.append(ques[3]==ivocab[indices[0]])
-        #if(ques[3]==ivocab[indices[0]]):
-         #   print(ivocab[indices[0]])
-
 
     OOV=num_lines-len(val)
     result[filenames.replace(".txt", "")] = (np.mean(val) * 100, np.sum(val), len(val),OOV)
-    #results.append(result)
-    #pprint(result)
     return result
-def analogy(filename,dim):
-    print("Word analogy test is running")
-    W, vocab, ivocab,words = generate(filename,dim)
+
+
+def analogy(W, vocab, ivocab,words):
+    print("Word analogy test is running...............")
     collections=[]
     filenames = [
         'currency.txt','capital-common-countries.txt','capital-world.txt',
@@ -117,14 +106,14 @@ def analogy(filename,dim):
           count_sem += v[2]
           correct_sem += v[1]
           oov1+=v[3]
-          print(v[1],v[2])
-          result_sem.append({"Test":k,"Score":v[0],"OOV":v[3]})
+
+          result_sem.append({"Test":k,"Score":v[0],"OOV":str(v[3])+"/"+str(v[2]+v[3])})
       else:
           count_syn += v[2]
           correct_syn += v[1]
           oov2 += v[3]
-          print(v[1], v[2])
-          result_syn.append({"Test": k, "Score": v[0], "OOV": v[3]})
+
+          result_syn.append({"Test": k, "Score": v[0], "OOV": str(v[3])+"/"+str(v[2]+v[3])})
     score1=float(correct_syn)/count_syn
     score2=float(correct_sem)/count_sem
     result.append({"Test": "Syn analogy","Score":score1*100,"OOV":str(oov2)+"/"+str(count_syn),"Expand":result_syn})
@@ -132,14 +121,15 @@ def analogy(filename,dim):
     collections.extend(result_sem)
     collections.extend(result_syn)
     pprint(collections)
+    print("---------Overall analogy score------------")
     print("Semantic analogy score: ",score2*100)
     print("Syntactic analogy score: ", score1 * 100)
-    print("analogy test done..")
+    print("------------------------------------------")
     return result
 
 
 def pprint(collections):
-    print("Word analogy test results")
+    print("---------Word analogy Benchmarks results---------")
     x = PrettyTable(["Test", "Score (rho)", "Not Found/Total"])
     x.align["Dataset"] = "l"
     for result in collections:

@@ -59,23 +59,22 @@ def evaluate(labels_true, labels_pred,count):
     results["Score"] = v_score*100
     results["OOV"] = count
     pprint(results)
-    print("Concept categorization test done")
-    print("---------------------------------------")
     return results
-def categorize(embeddingPath,dim):
+
+def categorize(vectors,words):
     datasetpath = 'concept_cate/bless.csv'
     NUM_CLUSTERS = 17
     print("Concept categorization test is running....")
     # map category
     mapcate=mapcluster(datasetpath)
     #load embeddings
-    vectors, words=loadvocab(embeddingPath,dim)
     embeddings, labels_true,count=constructEmbedding(datasetpath,vectors,words,mapcate)
     labels_pred=cluster(embeddings,NUM_CLUSTERS)
     result=evaluate(labels_true,labels_pred,count)
     return result
 
 def pprint(collection):
+    print("Concept categorization test results......")
     for k, v in collection.items():
         print(k," : ",v)
-    print("---------------------------------------")
+    print("------------------------------------------")
