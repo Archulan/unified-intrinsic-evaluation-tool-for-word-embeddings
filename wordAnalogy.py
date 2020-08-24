@@ -64,7 +64,7 @@ def evaluate(filenames,prefix, W, vocab, ivocab,words,result):
     feed = io.open('%s/%s' % (prefix, filenames), 'r', encoding="utf8").read()
     num_lines = len(feed.splitlines())
     with io.open('%s/%s' % (prefix, filenames), 'r') as f:
-        for line in f:
+        for line in tqdm(f):
             row=line.rstrip().split()
             if False in [i in words for i in row]:
                 continue
@@ -97,7 +97,7 @@ def analogy(W, vocab, ivocab,words):
     results={}
     result,result_sem,result_syn=[],[],[]
     oov1,oov2=0,0
-    for file in filenames:
+    for file in tqdm(filenames):
       evaluate(file,prefix,W,vocab,ivocab,words,results)
     semfiles=['currency','capital-common-countries','capital-world','city-in-state', 'family']
     correct_syn, correct_sem, count_syn, count_sem=0,0,0,0
