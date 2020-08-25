@@ -4,6 +4,7 @@ import csv
 import nltk
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 from sklearn import metrics
 from nltk.cluster import KMeansClusterer
 
@@ -26,7 +27,7 @@ def constructEmbedding(filepath,vectors,words,mapcate):
 
 
 def loadvocab(filepath,dim):
-    with io.open(filepath, 'r',encoding="utf8") as f:
+    with tqdm(io.open(filepath, 'r',encoding="utf8")) as f:
         vectors = {}
         words=[]
         for line in f:
@@ -54,23 +55,26 @@ def evaluate(labels_true, labels_pred,count):
     homo=metrics.homogeneity_score(labels_true, labels_pred)
     complete=metrics.completeness_score(labels_true, labels_pred)
     v_score=metrics.v_measure_score(labels_true, labels_pred)
-    results["#"] = 6
     results["Test"] = "Concept categorization"
     results["Score"] = v_score*100
     results["OOV"] = count
-
-    print("Concept categorization test done")
-    print("---------------------------------------")
+    pprint(results)
     return results
-def categorize(embeddingPath,dim):
+
+def categorize(vectors,words):
     datasetpath = 'concept_cate/bless.csv'
     NUM_CLUSTERS = 17
     print("Concept categorization test is running....")
     # map category
     mapcate=mapcluster(datasetpath)
     #load embeddings
-    vectors, words=loadvocab(embeddingPath,dim)
     embeddings, labels_true,count=constructEmbedding(datasetpath,vectors,words,mapcate)
     labels_pred=cluster(embeddings,NUM_CLUSTERS)
     result=evaluate(labels_true,labels_pred,count)
     return result
+
+def pprint(collection):
+    print("Concept categorization test results......")
+    for k, v in collection.items():
+        print(k," : ",v)
+    print("------------------------------------------")

@@ -4,6 +4,9 @@ import operator
 import numpy as np
 from math import sqrt
 
+from prettytable import PrettyTable
+
+
 class OutlierDetectionCluster:
     # Class modeling a cluster of the dataset, composed of its topic name, its corresponding elements and the outliers to be detected
     def __init__(self, elements, outliers, topic=""):
@@ -115,37 +118,21 @@ def compose_vectors_multiword(multiword,input_vectors,dimensions):
             vector_multiword[j]=vector_multiword[j]/cont_unigram_in_vectors
     return vector_multiword
 
-def getting_vectors(path_vectors, set_words,dim):
+def getting_vectors(vectors, set_words,dimensions):
     # Reads input vectors file and stores the vectors of the words occurring in the dataset in a dictionary
-    #print("Loading word vectors...")
-    dimensions = -1
-    vectors = {}
-    wordcollection = {}
-    with io.open(path_vectors, 'r', encoding="utf8") as vectors_file:
-        for line in vectors_file:
-            linesplit = line.strip().split(" ")
-            #print(len(linesplit),linesplit)
-            if (len(linesplit) == int(dim)+1):
-                word = linesplit[0]
+    set_vectors = {}
+    for word, v in vectors.items():
+        if word == '<unk>':
+            continue
+        vec = np.array(v)
 
-                lst=linesplit[1:]
-                wordcollection[word]=[float(i) for i in lst]
-                if word in set_words:
-                    if dimensions != len(linesplit) - 1:
-                        if dimensions == -1:
-                            dimensions = len(linesplit) - 1
-                        else:
-                            print("WARNING! One line with a different number of dimensions")
-                    vectors[word] = []
-                    for i in range(dimensions):
-                        vectors[word].append(float(linesplit[i + 1]))
+        if word in set_words:
+            set_vectors[word] = vec
 
-        #print("Number of vector dimensions: " + str(dimensions))
     for word in set_words:
-        if word not in vectors:
-            vectors[word] = compose_vectors_multiword(word,vectors, dimensions)
-    print("Vectors already loaded")
-    return vectors, dimensions
+        if word not in set_vectors:
+            set_vectors[word] = compose_vectors_multiword(word,vectors, dimensions)
+    return set_vectors, dimensions
 def check(cluster, input_vectors):
 
     clusternew=set()
@@ -172,21 +159,17 @@ def check(cluster, input_vectors):
     else:
         return False, cluster
 
-def pprint(result):
 
-    x = PrettyTable(["Topic", "Average outlier position", "Outliers detected percentage", "Number of outliers"])
-    x.align["Topic"] = "l"
-    for k, v in result.items():
-        x.add_row([k, v[0], v[1], v[2]])
-    print (x)
-    print("---------------------------------------")
 
-def outlier(path_vectors,dim):
+
+def outlier(vectors,dim):
+    print("Outlier detection test is running....")
     path_dataset = 'wiki-sem/'
     dataset = OutlierDetectionDataset(path_dataset)
     dataset.readDataset()
-    input_vectors, dimensions = getting_vectors(path_vectors, dataset.setWords,dim)
-    result,results = {},{}
+    input_vectors, dimensions = getting_vectors(vectors, dataset.setWords,dim)
+    result,result1,result2 = {},{},{}
+    collection=[]
     dictCompactness = {}
     countTotalOutliers,TotalOutliers = 0,0
     numOutliersDetected = 0
@@ -242,9 +225,26 @@ def outlier(path_vectors,dim):
         result[cluster.topic]=(scoreOPP_Cluster,accuracyCluster,len(cluster.outliers))
     scoreOPP = ((sumPositionsPercentage * 1.0) / countTotalOutliers) * 100
     accuracy = ((numOutliersDetected * 1.0) / countTotalOutliers) * 100.0
-    results["#"]=7
-    results["Test"] ="Outlier Detection"
-    results["Score"] =accuracy
-    results["OOV"] =str(countTotalOutliers)+"/"+str(TotalOutliers)
-    results["OOP"] =scoreOPP
-    return results
+    result1["Test"] ="Outlier Detection-Accuracy"
+    result1["Score"] =accuracy
+    result1["OOV"] =str(countTotalOutliers)+"/"+str(TotalOutliers)
+    result2["Test"] ="Outlier Detection-OOP"
+    result2["Score"] =scoreOPP
+    result2["OOV"] =str(countTotalOutliers)+"/"+str(TotalOutliers)
+    collection.append(result1)
+    collection.append(result2)
+    pprint(collection)
+    return collection
+
+def pprint(collection):
+    print("Outlier detection test result....")
+    x = PrettyTable(["Test", "Score", "Not Found/Total"])
+    x.align["Dataset"] = "l"
+    for result in collection:
+        v = []
+        for k, m in result.items():
+            v.append(m)
+        x.add_row([v[0], v[1], v[2]])
+
+    print(x)
+    print("-------------------------------------------------------------------------")

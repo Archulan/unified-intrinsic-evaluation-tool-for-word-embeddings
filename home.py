@@ -1,10 +1,13 @@
 import os
 import argparse
 from distance import similarity
-from word_analogy import analogy
-from conceptcate import categorize
-from OutlierDetection import outlier as out
-
+from wordAnalogy import analogy
+from conceptCategorization import categorize
+from outlierDetection import outlier as out
+import io
+import numpy as np
+from tqdm import tqdm
+from prettytable import PrettyTable
 # Create the parser
 input_parser = argparse.ArgumentParser(prog='Unified intrinsic evaluation tool for word embeddings',
                                        usage='%(prog)s [options] path',
@@ -16,6 +19,51 @@ def is_valid_file(parser, arg):
         parser.error("The file %s does not exist!" % arg)
     else:
         return open(arg, 'r')
+
+def generate(filename,dim):
+    print('Reading model file....')
+    words=[]
+    with tqdm(io.open(filename, 'r',encoding="utf8")) as f:
+        vectors = {}
+        for line in f:
+            vals = line.rstrip().split(' ')
+            if(vals[0].isalpha() and len(vals)==int(dim)+1):
+                vectors[vals[0]] = [float(x) for x in vals[1:]]
+                words.append(vals[0])
+
+    vocab_size = len(words)
+    vocab = {w: idx for idx, w in enumerate(words)}
+    ivocab = {idx: w for idx, w in enumerate(words)}
+
+    vector_dim = len(vectors[ivocab[0]])
+    W = np.zeros((vocab_size, vector_dim))
+    W_norm = np.zeros((vocab_size, vector_dim))
+    print('Vocabulary size:', vocab_size)
+
+    for word, v in vectors.items():
+        if word == '<unk>':
+            continue
+        vec=np.array(v)
+        d = (np.sum((vec)** 2, ) ** (0.5))
+        norm = (vec.T / d).T
+        W_norm[vocab[word], :]=norm
+
+    return (W_norm, vocab, ivocab,words,vectors)
+
+
+def pprint(collections):
+    print("Final results")
+    x = PrettyTable(["Test", "Score (rho)","Not Found/Total"])
+    x.align["Dataset"] = "l"
+    for result in collections:
+        v=[]
+        for k, m in result.items():
+            v.append(m)
+        x.add_row([v[0],v[1], v[2]])
+
+    print (x)
+    print("---------------------------------------")
+
 # arguments
 input_parser.add_argument('name',
                           type=str,
@@ -42,14 +90,16 @@ args = input_parser.parse_args()
 model = args.model.name
 dim = args.dim
 
-result = similarity(model, dim)
-result1 = analogy(model, dim)
-result2 = categorize(model,dim)
-result3 = out(model,dim)
+
+W_norm, vocab, ivocab,words,vectors=generate(model,dim)
+result = similarity(W_norm, vocab)
+result1 = analogy(W_norm, vocab, ivocab,words)
+result2 = categorize(vectors,words)
+result3 = out(vectors,dim)
 result.extend(result1)
 result.append(result2)
-result.append(result3)
-
+result.extend(result3)
+pprint(result)
 sim, rw, synana, semana, ambi, concept, outlier, oop = 0, 0, 0, 0, 0, 0, 0, 0
 for res in result:
     if res["Test"] == "Word similarity":

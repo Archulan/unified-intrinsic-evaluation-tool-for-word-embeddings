@@ -31,29 +31,6 @@ def generate(filename,dim):
     print("Generating vectors list")
     return (W, vocab, ivocab)
 
-def distance(W, vocab, ivocab, input_term):
-    for idx, term in enumerate(input_term.split(' ')):
-        if term in vocab:
-            #print('Word: %s  Position in vocabulary: %i' % (term, vocab[term]))
-            if idx == 0:
-                vec_result = np.copy(W[vocab[term], :])
-            else:
-                vec_result += W[vocab[term], :]
-        else:
-            print('Word: %s  Out of dictionary!\n' % term)
-            return
-
-    vec_norm = np.zeros(vec_result.shape)
-    d = (np.sum(vec_result ** 2,) ** (0.5))
-    vec_norm = (vec_result.T / d).T
-
-    dist = np.dot(W, vec_norm.T)
-
-    for term in input_term.split(' '):
-        index = vocab[term]
-        dist[index] = -np.Inf
-
-    a = np.argsort(-dist)[:10]
 
 
 def cos(W,word1,word2,vocab):
@@ -67,7 +44,6 @@ def rho(vec1,vec2):
 
 def evaluate(word_dict,vocab,dataset):
     result = []
-    print("Evaluating word similarity")
     for file_name, data in tqdm(dataset.items()):
         pred, label, found, notfound,temp = [], [], 0, 0, {}
         for datum in data:
@@ -78,18 +54,17 @@ def evaluate(word_dict,vocab,dataset):
                 label.append(datum[2])
             else:
                 notfound += 1
-        temp["#"] = ""
-        temp["Score"]=rho(label, pred) * 100
-        temp["OOV"]=str(notfound)+str("/")+str(found+notfound)
         temp["Test"]=file_name
+        temp["Score"] = rho(label, pred) * 100
+        temp["OOV"] = str(notfound) + str("/") + str(found + notfound)
         result.append(temp)
     return result
 
 
-def similarity(filename,dim):
+def similarity( W, vocab):
+    print("Word similarity test is Running........")
     score,notfound,total=0,0,0
     results=[]
-    W, vocab, ivocab = generate(filename,dim)
     filenames = [
         'EN-WS-353-REL.txt','EN-WS-353-SIM.txt','EN-RW-STANFORD.txt','EN-MEN-TR-3k.txt','EN-VERB-143.txt','MSD-1030.txt'
     ]
@@ -105,29 +80,34 @@ def similarity(filename,dim):
     for k in result:
         if(k["Test"] == "EN-RW-STANFORD"):
             temp1 = k
-            results.append({"#": 1, "Test": "RW similarity", "Score": k["Score"], "OOV": k["OOV"], "Expand": []})
+            results.append({ "Test": "RW similarity", "Score": k["Score"], "OOV": k["OOV"], "Expand": []})
         elif(k["Test"] == "MSD-1030"):
             temp = k
-            results.append({"#": 2, "Test": "Ambiguity", "Score": k["Score"], "OOV": k["OOV"], "Expand": []})
+            results.append({ "Test": "Ambiguity", "Score": k["Score"], "OOV": k["OOV"], "Expand": []})
         else:
             score += k["Score"]
             notfound += int(k["OOV"].split("/")[0])
             total += int(k["OOV"].split("/")[1])
+    print("------------Word similarity Benchmarks test results------------")
+    pprint(result)
     result.remove(temp)
     result.remove(temp1)
-    results.append({"#":3,"Test":"Word similarity","Score":str(score/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
+    results.append({"Test":"Word similarity","Score":str(score/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
+    print("----------Overall results----------")
+    pprint(results)
+
     return results
 
-def pprint(result):
-    print("Word similarity test results")
-    x = PrettyTable(["Dataset", "Found", "Not Found", "Score (rho)"])
+def pprint(collections):
+
+    x = PrettyTable(["Test", "Score (rho)","Not Found/Total"])
     x.align["Dataset"] = "l"
-    i=0
-    score=0
-    for k, v in result.items():
-        x.add_row([k, v[0], v[1], v[2]])
-        if i!=2:
-            score+=v[2]
+    for result in collections:
+        v=[]
+        for k, m in result.items():
+            v.append(m)
+        x.add_row([v[0],v[1], v[2]])
+
     print (x)
     print("---------------------------------------")
-    print("Similarity score", score)
+
