@@ -92,7 +92,7 @@ args = input_parser.parse_args()
 print('Model name :', args.name)
 print('Model file :', args.model.name)
 print('Dimension  :', args.dim)
-print('Description:', args.des)
+print('Description:', args.des,'\n')
 
 model = args.model.name
 dim = args.dim

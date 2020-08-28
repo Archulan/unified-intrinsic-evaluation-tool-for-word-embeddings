@@ -81,12 +81,12 @@ class SimilarityEvaluator(Evaluator):
                 score += k["Score"]
                 notfound += int(k["OOV"].split("/")[0])
                 total += int(k["OOV"].split("/")[1])
-        print("------------Word similarity Benchmarks test results------------")
+        print("\n------------Word similarity Benchmarks test results------------")
         self.pprint(result)
         result.remove(temp)
         result.remove(temp1)
         results.append({"Test":"Word similarity","Score":str(score/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
-        print("----------Overall results----------")
+        print("\n----------Overall results----------")
         self.pprint(results)
 
         return results
@@ -101,8 +101,7 @@ class SimilarityEvaluator(Evaluator):
                 v.append(m)
             x.add_row([v[0],v[1], v[2]])
 
-        print (x)
-        print("---------------------------------------")
+        print (x,'\n')
 
     def process(self, vectors: dict):
         W_norm, vocab= self.preprocess(vectors)
