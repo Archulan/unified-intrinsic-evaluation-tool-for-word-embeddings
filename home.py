@@ -1,9 +1,10 @@
 import os
 import argparse
-from distance import similarity
-from wordAnalogy import analogy
-from conceptCategorization import categorize
-from outlierDetection import outlier as out
+from distance import SimilarityEvaluator
+from wordAnalogy import AnalogyEvaluator
+from conceptCategorization import CategorizationEvaluator
+from outlierDetection import OutlierEvaluator
+from Main import App
 import io
 import numpy as np
 from tqdm import tqdm
@@ -90,31 +91,5 @@ args = input_parser.parse_args()
 model = args.model.name
 dim = args.dim
 
-
-W_norm, vocab, ivocab,words,vectors=generate(model,dim)
-result = similarity(W_norm, vocab)
-result1 = analogy(W_norm, vocab, ivocab,words)
-result2 = categorize(vectors,words)
-result3 = out(vectors,dim)
-result.extend(result1)
-result.append(result2)
-result.extend(result3)
-pprint(result)
-sim, rw, synana, semana, ambi, concept, outlier, oop = 0, 0, 0, 0, 0, 0, 0, 0
-for res in result:
-    if res["Test"] == "Word similarity":
-        sim = res["Score"]
-    elif res["Test"] == "RW similarity":
-        rw = res["Score"]
-    elif res["Test"] == "Syn analogy":
-        synana = res["Score"]
-    elif res["Test"] == "Sem analogy":
-        semana = res["Score"]
-    elif res["Test"] == "Concept categorization":
-        concept = res["Score"]
-    elif res["Test"] == "Outlier Detection":
-        outlier = res["Score"]
-    elif res["Test"] == "Outlier-oop":
-        oop = res["Score"]
-    elif res["Test"] == "Ambiguity":
-        ambi = res["Score"]
+app=App(dim=dim,path=model,plugins=[SimilarityEvaluator(),AnalogyEvaluator(),CategorizationEvaluator(),OutlierEvaluator()])
+app.run()
