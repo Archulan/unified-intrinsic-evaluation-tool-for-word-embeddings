@@ -89,9 +89,9 @@ input_parser.add_argument('-v',
 # Execute the parse_args() method
 args = input_parser.parse_args()
 
-print('Model name:', args.name)
-print('Model file:', args.model.name)
-print('Dimension:', args.dim)
+print('Model name :', args.name)
+print('Model file :', args.model.name)
+print('Dimension  :', args.dim)
 print('Description:', args.des)
 
 model = args.model.name
