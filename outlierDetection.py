@@ -61,7 +61,7 @@ class OutlierEvaluator(Evaluator):
     def module(self,vector):
         # Module of a vector
         suma = 0.0
-        for dimension in tqdm(vector):
+        for dimension in vector:
             suma += dimension * dimension
         return sqrt(suma)
 
@@ -69,7 +69,7 @@ class OutlierEvaluator(Evaluator):
     def scalar_prod(self,vector1, vector2):
         # Scalar product between two vectors
         prod = 0.0
-        for i in tqdm(range(len(vector1))):
+        for i in range(len(vector1)):
             dimension_1 = vector1[i]
             dimension_2 = vector2[i]
             prod += dimension_1 * dimension_2
