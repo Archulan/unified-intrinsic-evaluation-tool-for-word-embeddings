@@ -154,8 +154,6 @@ class OutlierEvaluator(Evaluator):
             return False, cluster
 
 
-
-
     def run(self,input_vectors, dataset):
         print("Outlier detection test is running....")
         result,result1,result2 = {},{},{}

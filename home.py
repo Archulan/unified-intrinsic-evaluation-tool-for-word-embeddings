@@ -9,6 +9,7 @@ from distance import SimilarityEvaluator
 from wordAnalogy import AnalogyEvaluator
 from outlierDetection import OutlierEvaluator
 from conceptCategorization import CategorizationEvaluator
+
 # Create the parser
 input_parser = argparse.ArgumentParser(prog='Unified intrinsic evaluation tool for word embeddings',
                                        usage='%(prog)s [options] path',
