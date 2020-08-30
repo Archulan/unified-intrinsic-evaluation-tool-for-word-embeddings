@@ -76,7 +76,7 @@ class AnalogyEvaluator(Evaluator):
         return result
 
     def pprint(self, collections):
-        print("---------Word analogy Benchmarks results---------")
+        print("------------------ Word analogy Benchmarks results ------------------")
         x = PrettyTable(["Test", "Score (rho)", "Not Found/Total"])
         x.align["Dataset"] = "l"
         for result in collections:
@@ -127,7 +127,7 @@ class AnalogyEvaluator(Evaluator):
         collections.extend(result_sem)
         collections.extend(result_syn)
         self.pprint(collections)
-        print("---------Overall analogy score------------")
+        print("--------- Overall analogy score ------------")
         print("Semantic analogy score: ",score2*100)
         print("Syntactic analogy score: ", score1 * 100)
         print("------------------------------------------")

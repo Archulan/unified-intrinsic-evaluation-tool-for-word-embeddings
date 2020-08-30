@@ -81,12 +81,12 @@ class SimilarityEvaluator(Evaluator):
                 score += k["Score"]
                 notfound += int(k["OOV"].split("/")[0])
                 total += int(k["OOV"].split("/")[1])
-        print("\n--------Word similarity benchmark test results--------")
+        print("\n-------- Word similarity benchmark test results --------")
         self.pprint(result)
         result.remove(temp)
         result.remove(temp1)
         results.append({"Test":"Word similarity","Score":str(score/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
-        print("\n---------------------Overall results---------------------")
+        print("\n---------------------- Overall results ---------------------")
         self.pprint(results)
 
         return results
