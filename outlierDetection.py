@@ -3,6 +3,7 @@ import io
 import operator
 import numpy as np
 from math import sqrt
+from tqdm import tqdm
 from Evaluator import Evaluator
 from prettytable import PrettyTable
 
@@ -27,7 +28,7 @@ class OutlierDetectionDataset:
         dict_cluster_elements = {}
         dict_cluster_outliers = {}
         listing = os.listdir(self.path)
-        for in_file in listing:
+        for in_file in tqdm(listing):
             if in_file.endswith(".txt"):
                 with io.open(self.path + in_file, 'r', encoding="utf8") as cluster_file:
                     cluster_name = in_file.replace(".txt", "")
@@ -151,8 +152,6 @@ class OutlierEvaluator(Evaluator):
             return True,cluster
         else:
             return False, cluster
-
-
 
 
     def run(self,input_vectors, dataset):

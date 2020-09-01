@@ -2,13 +2,13 @@ import io
 import numpy as np
 from tqdm import tqdm
 from scipy import linalg, stats
+from Evaluator import Evaluator
 from prettytable import PrettyTable
 from collections import defaultdict
-from Evaluator import Evaluator
 
 class SimilarityEvaluator(Evaluator):
     def preprocess(self,vectors: dict):
-        print("Preprocessing the vector file for similarity Test")
+        print("Preprocessing the vector file for similarity test")
         words=list(vectors.keys())
         vocab_size = len(words)
         vector_dim=len(list(vectors.values())[0])
@@ -81,19 +81,19 @@ class SimilarityEvaluator(Evaluator):
                 score += k["Score"]
                 notfound += int(k["OOV"].split("/")[0])
                 total += int(k["OOV"].split("/")[1])
-        print("------------Word similarity Benchmarks test results------------")
+        print("\n-------- Word similarity benchmark test results --------")
         self.pprint(result)
         result.remove(temp)
         result.remove(temp1)
         results.append({"Test":"Word similarity","Score":str(score/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
-        print("----------Overall results----------")
+        print("\n---------------------- Overall results ---------------------")
         self.pprint(results)
 
         return results
 
     def pprint(self,collections):
 
-        x = PrettyTable(["Test", "Score (rho)","Not Found/Total"])
+        x = PrettyTable(["Test", "Score (rho)","Not found/Total"])
         x.align["Dataset"] = "l"
         for result in collections:
             v=[]
@@ -101,8 +101,7 @@ class SimilarityEvaluator(Evaluator):
                 v.append(m)
             x.add_row([v[0],v[1], v[2]])
 
-        print (x)
-        print("---------------------------------------")
+        print (x,'\n')
 
     def process(self, vectors: dict):
         W_norm, vocab= self.preprocess(vectors)

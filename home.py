@@ -1,14 +1,15 @@
 import os
-import argparse
-from distance import SimilarityEvaluator
-from wordAnalogy import AnalogyEvaluator
-from conceptCategorization import CategorizationEvaluator
-from outlierDetection import OutlierEvaluator
-from Main import App
 import io
+import argparse
 import numpy as np
+from Main import App
 from tqdm import tqdm
 from prettytable import PrettyTable
+from distance import SimilarityEvaluator
+from wordAnalogy import AnalogyEvaluator
+from outlierDetection import OutlierEvaluator
+from conceptCategorization import CategorizationEvaluator
+
 # Create the parser
 input_parser = argparse.ArgumentParser(prog='Unified intrinsic evaluation tool for word embeddings',
                                        usage='%(prog)s [options] path',
@@ -88,6 +89,12 @@ input_parser.add_argument('-v',
 
 # Execute the parse_args() method
 args = input_parser.parse_args()
+
+print('Model name :', args.name)
+print('Model file :', args.model.name)
+print('Dimension  :', args.dim)
+print('Description:', args.des,'\n')
+
 model = args.model.name
 dim = args.dim
 
