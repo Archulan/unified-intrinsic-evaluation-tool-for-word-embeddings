@@ -35,6 +35,12 @@ class SimilarityEvaluator(Evaluator):
     def rho(self,vec1,vec2):
         return stats.stats.spearmanr(vec1, vec2)[0]
 
+    def pearson(self,vec1, vec2):
+        return stats.stats.pearsonr(vec1, vec2)[0]
+
+    def kendalltau(self,vec1, vec2):
+        return stats.stats.kendalltau(vec1, vec2)[0]
+
     def evaluate(self,word_dict,vocab,dataset):
         result = []
         for file_name, data in tqdm(dataset.items()):
@@ -47,8 +53,11 @@ class SimilarityEvaluator(Evaluator):
                     label.append(datum[2])
                 else:
                     notfound += 1
+            temp["#"]=""
             temp["Test"]=file_name
-            temp["Score"] = self.rho(label, pred) * 100
+            temp["Spearman"] = self.rho(label, pred) * 100
+            temp["Pearson"] = self.pearson(label, pred) * 100
+            temp["kendalltau"] = self.kendalltau(label, pred) * 100
             temp["OOV"] = str(notfound) + str("/") + str(found + notfound)
             result.append(temp)
         return result
@@ -56,7 +65,7 @@ class SimilarityEvaluator(Evaluator):
 
     def run( self,W, vocab):
         print("Word similarity test is Running........")
-        score,notfound,total=0,0,0
+        sscore,kscore,pscore,notfound,total=0,0,0,0,0
         results=[]
         filenames = [
             'EN-WS-353-REL.txt','EN-WS-353-SIM.txt','EN-RW-STANFORD.txt','EN-MEN-TR-3k.txt','EN-VERB-143.txt','MSD-1030.txt'
@@ -73,35 +82,40 @@ class SimilarityEvaluator(Evaluator):
         for k in result:
             if(k["Test"] == "EN-RW-STANFORD"):
                 temp1 = k
-                results.append({ "Test": "RW similarity", "Score": k["Score"], "OOV": k["OOV"], "Expand": []})
-            elif(k["Test"] == "MSD-1030"):
+                results.append(
+                    {"#": 1, "Test": "RW similarity", "Spearman_Score": k["Spearman"], "Pearson_score": k["Pearson"],
+                     "Kendalltau_score": k["kendalltau"], "OOV": k["OOV"], "Expand": []})
+            elif (k["Test"] == "MSD-1030"):
                 temp = k
-                results.append({ "Test": "Ambiguity", "Score": k["Score"], "OOV": k["OOV"], "Expand": []})
+                results.append(
+                    {"#": 2, "Test": "Ambiguity", "Spearman_Score": k["Spearman"], "Pearson_score": k["Pearson"],
+                     "Kendalltau_score": k["kendalltau"], "OOV": k["OOV"], "Expand": []})
             else:
-                score += k["Score"]
+                sscore += k["Spearman"]
+                pscore += k["Pearson"]
+                kscore += k["kendalltau"]
                 notfound += int(k["OOV"].split("/")[0])
                 total += int(k["OOV"].split("/")[1])
         print("------------Word similarity Benchmarks test results------------")
         self.pprint(result)
         result.remove(temp)
         result.remove(temp1)
-        results.append({"Test":"Word similarity","Score":str(score/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
+        results.append({"#":3,"Test":"Word similarity","Spearman_Score":str(sscore/4),"Pearson_score" :str(pscore/4),"Kendalltau_score":str(kscore/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
         print("----------Overall results----------")
         self.pprint(results)
 
         return results
 
     def pprint(self,collections):
-
-        x = PrettyTable(["Test", "Score (rho)","Not Found/Total"])
+        x = PrettyTable(["#", "Test", "Spearman_Score (rho)", "Pearson_score", "Kendalltau_score", "Not Found/Total"])
         x.align["Dataset"] = "l"
         for result in collections:
-            v=[]
+            v = []
             for k, m in result.items():
                 v.append(m)
-            x.add_row([v[0],v[1], v[2]])
+            x.add_row([v[0], v[1], v[2], v[3], v[4], v[5]])
 
-        print (x)
+        print(x)
         print("---------------------------------------")
 
     def process(self, vectors: dict):
