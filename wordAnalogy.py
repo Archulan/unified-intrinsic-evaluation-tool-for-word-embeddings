@@ -123,9 +123,11 @@ class AnalogyEvaluator(Evaluator):
         print("Word analogy test is running...............")
         collections=[]
         filenames = [
-          'family.txt', 'gram1-adjective-to-adverb.txt'
-
-
+            'currency.txt', 'capital-common-countries.txt', 'capital-world.txt',
+            'city-in-state.txt', 'family.txt', 'gram1-adjective-to-adverb.txt',
+            'gram2-opposite.txt', 'gram3-comparative.txt', 'gram4-superlative.txt',
+            'gram5-present-participle.txt', 'gram6-nationality-adjective.txt',
+            'gram7-past-tense.txt', 'gram8-plural.txt', 'gram9-plural-verbs.txt'
         ]
         prefix = 'question-data'
 
