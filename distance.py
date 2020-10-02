@@ -1,10 +1,10 @@
 import io
 import numpy as np
 from tqdm import tqdm
+from Evaluator import Evaluator
 from scipy import linalg, stats
 from prettytable import PrettyTable
 from collections import defaultdict
-from Evaluator import Evaluator
 
 class SimilarityEvaluator(Evaluator):
     def preprocess(self,vectors: dict):

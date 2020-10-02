@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
 import io
 import csv
 import nltk
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 from sklearn import metrics
-from nltk.cluster import KMeansClusterer
 from Evaluator import Evaluator
+from nltk.cluster import KMeansClusterer
 
 class CategorizationEvaluator(Evaluator):
     def constructEmbedding(self,filepath,vectors,words,mapcate):
