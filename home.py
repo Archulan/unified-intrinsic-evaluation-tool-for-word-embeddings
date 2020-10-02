@@ -9,11 +9,13 @@ import io
 import numpy as np
 from tqdm import tqdm
 from prettytable import PrettyTable
+
 # Create the parser
 input_parser = argparse.ArgumentParser(prog='Unified intrinsic evaluation tool for word embeddings',
                                        usage='%(prog)s [options] path',
                                        description='Input your model and dimension size')
 input_parser.version = '1.0'
+
 
 def is_valid_file(parser, arg):
     if not os.path.exists(arg):
@@ -21,14 +23,15 @@ def is_valid_file(parser, arg):
     else:
         return open(arg, 'r')
 
-def generate(filename,dim):
+
+def generate(filename, dim):
     print('Reading model file....')
-    words=[]
-    with tqdm(io.open(filename, 'r',encoding="utf8")) as f:
+    words = []
+    with tqdm(io.open(filename, 'r', encoding="utf8")) as f:
         vectors = {}
         for line in f:
             vals = line.rstrip().split(' ')
-            if(vals[0].isalpha() and len(vals)==int(dim)+1):
+            if (vals[0].isalpha() and len(vals) == int(dim) + 1):
                 vectors[vals[0]] = [float(x) for x in vals[1:]]
                 words.append(vals[0])
 
@@ -44,26 +47,27 @@ def generate(filename,dim):
     for word, v in vectors.items():
         if word == '<unk>':
             continue
-        vec=np.array(v)
-        d = (np.sum((vec)** 2, ) ** (0.5))
+        vec = np.array(v)
+        d = (np.sum((vec) ** 2, ) ** (0.5))
         norm = (vec.T / d).T
-        W_norm[vocab[word], :]=norm
+        W_norm[vocab[word], :] = norm
 
-    return (W_norm, vocab, ivocab,words,vectors)
+    return (W_norm, vocab, ivocab, words, vectors)
 
 
 def pprint(collections):
     print("Final results")
-    x = PrettyTable(["Test", "Score (rho)","Not Found/Total"])
+    x = PrettyTable(["Test", "Score (rho)", "Not Found/Total"])
     x.align["Dataset"] = "l"
     for result in collections:
-        v=[]
+        v = []
         for k, m in result.items():
             v.append(m)
-        x.add_row([v[0],v[1], v[2]])
+        x.add_row([v[0], v[1], v[2]])
 
-    print (x)
+    print(x)
     print("---------------------------------------")
+
 
 # arguments
 input_parser.add_argument('name',
@@ -71,8 +75,8 @@ input_parser.add_argument('name',
                           help='name of the model')
 
 input_parser.add_argument('model',
-                    help="input the model file", metavar="FILE",
-                    type=lambda x: is_valid_file(input_parser, x))
+                          help="input the model file", metavar="FILE",
+                          type=lambda x: is_valid_file(input_parser, x))
 
 input_parser.add_argument('dim',
                           type=int,
@@ -91,5 +95,11 @@ args = input_parser.parse_args()
 model = args.model.name
 dim = args.dim
 
-app=App(dim=dim,path=model,plugins=[SimilarityEvaluator(),AnalogyEvaluator(),CategorizationEvaluator(),OutlierEvaluator()])
+print('Name:', args.name)
+print('Model file:', args.model.name)
+print('Dimension:', args.dim)
+print('Description:', args.des)
+
+app = App(dim=dim, path=model,
+          plugins=[SimilarityEvaluator(), AnalogyEvaluator(), CategorizationEvaluator(), OutlierEvaluator()])
 app.run()
