@@ -2,8 +2,8 @@ import io
 import numpy as np
 from tqdm import tqdm
 from scipy import linalg
-from prettytable import PrettyTable
 from Evaluator import Evaluator
+from prettytable import PrettyTable
 
 class AnalogyEvaluator(Evaluator):
     def preprocess(self,vectors: dict):
