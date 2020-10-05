@@ -95,9 +95,9 @@ args = input_parser.parse_args()
 model = args.model.name
 dim = args.dim
 
-print('Name:', args.name)
-print('Model file:', args.model.name)
-print('Dimension:', args.dim)
+print('Name       :', args.name)
+print('Model file :', args.model.name)
+print('Dimension  :', args.dim)
 print('Description:', args.des)
 
 app = App(dim=dim, path=model,
