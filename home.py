@@ -98,7 +98,7 @@ dim = args.dim
 print('Name       :', args.name)
 print('Model file :', args.model.name)
 print('Dimension  :', args.dim)
-print('Description:', args.des)
+print('Description:', args.des, '\n')
 
 app = App(dim=dim, path=model,
           plugins=[SimilarityEvaluator(), AnalogyEvaluator(), CategorizationEvaluator(), OutlierEvaluator()])
