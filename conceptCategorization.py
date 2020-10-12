@@ -25,7 +25,6 @@ class CategorizationEvaluator(Evaluator):
         return np.array(embeddings),labels_true,str(found)+"/"+str(count)
 
 
-
     def mapcluster(self,filepath):
         data={}
         df = pd.read_csv(filepath, usecols=['category'])
@@ -68,7 +67,6 @@ class CategorizationEvaluator(Evaluator):
         for k, v in collection.items():
             print(k," : ",v)
         print("------------------------------------------")
-
 
     def process(self, vectors: dict):
         out = self.run(vectors)
