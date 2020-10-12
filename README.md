@@ -5,4 +5,7 @@
 
 This is a tool developed as a result of our final year R&D project for CS 4202 at the department of Computer Science & Engineering, University of Moratuwa.
 
-## usage
+## Tool usage
+```
+python3 home.py model_name model_directory dimension_size description
+```
