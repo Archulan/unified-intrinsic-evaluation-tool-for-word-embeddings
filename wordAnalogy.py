@@ -174,4 +174,3 @@ class AnalogyEvaluator(Evaluator):
         W_norm, vocab, ivocab, words=self.preprocess(vectors)
         out=self.run(W_norm, vocab, ivocab, words)
         return out
-

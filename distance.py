@@ -122,4 +122,3 @@ class SimilarityEvaluator(Evaluator):
         W_norm, vocab= self.preprocess(vectors)
         out = self.run(W_norm, vocab)
         return out
-
