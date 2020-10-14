@@ -101,7 +101,6 @@ class AnalogyEvaluator(Evaluator):
             val.append(ques[3]==ivocab[indices[0]])
             val2.append(ques[3] == ivocab[indices2])
 
-        print(len(val))
         OOV=num_lines-len(val)
         result[filenames.replace(".txt","")] = (np.mean(val) * 100, np.sum(val), len(val),OOV,np.mean(val2) * 100, np.sum(val2))
         return result
