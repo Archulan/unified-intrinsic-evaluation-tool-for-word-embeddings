@@ -101,7 +101,7 @@ class SimilarityEvaluator(Evaluator):
         result.remove(temp)
         result.remove(temp1)
         results.append({"#":3,"Test":"Word similarity","Spearman_Score":str(sscore/4),"Pearson_score" :str(pscore/4),"Kendalltau_score":str(kscore/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
-        print("----------Overall results----------")
+        print("----------------------------------------------Overall results----------------------------------------------")
         self.pprint(results)
 
         return results
