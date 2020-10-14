@@ -96,7 +96,7 @@ class SimilarityEvaluator(Evaluator):
                 kscore += k["kendalltau"]
                 notfound += int(k["OOV"].split("/")[0])
                 total += int(k["OOV"].split("/")[1])
-        print("------------Word similarity Benchmarks test results------------")
+        print("---------------------------------Word similarity Benchmarks test results---------------------------------")
         self.pprint(result)
         result.remove(temp)
         result.remove(temp1)
