@@ -13,7 +13,7 @@ class App:
 
     def generate_vectors(self):
         print('Reading model file....')
-        with tqdm(io.open(self.vec_path, 'r', encoding="utf8")) as f:
+        with tqdm(io.open(self.vec_path, 'r', encoding="ISO-8859-1")) as f:
             vectors = {}
             for line in f:
                 vals = line.rstrip().split(' ')
