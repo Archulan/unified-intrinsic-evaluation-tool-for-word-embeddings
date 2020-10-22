@@ -1,10 +1,10 @@
 import io
 import numpy as np
 from tqdm import tqdm
+from Evaluator import Evaluator
 from scipy import linalg, stats
 from prettytable import PrettyTable
 from collections import defaultdict
-from Evaluator import Evaluator
 
 class SimilarityEvaluator(Evaluator):
     def preprocess(self,vectors: dict):
@@ -96,12 +96,12 @@ class SimilarityEvaluator(Evaluator):
                 kscore += k["kendalltau"]
                 notfound += int(k["OOV"].split("/")[0])
                 total += int(k["OOV"].split("/")[1])
-        print("------------Word similarity Benchmarks test results------------")
+        print("---------------------------------Word similarity Benchmarks test results---------------------------------")
         self.pprint(result)
         result.remove(temp)
         result.remove(temp1)
         results.append({"#":3,"Test":"Word similarity","Spearman_Score":str(sscore/4),"Pearson_score" :str(pscore/4),"Kendalltau_score":str(kscore/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
-        print("----------Overall results----------")
+        print("----------------------------------------------Overall results----------------------------------------------")
         self.pprint(results)
 
         return results
@@ -122,4 +122,3 @@ class SimilarityEvaluator(Evaluator):
         W_norm, vocab= self.preprocess(vectors)
         out = self.run(W_norm, vocab)
         return out
-

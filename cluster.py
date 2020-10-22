@@ -131,8 +131,6 @@ def main():
     write_outfile(outfile_path, preprocessed_data)
     # Load embeddings and words from file.
 
-
-
 if __name__ == '__main__':
     #flags.mark_flag_as_required('embeddings_file')
     #flags.mark_flag_as_required('metadata_file')

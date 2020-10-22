@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
 import io
 import csv
 import nltk
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 from sklearn import metrics
-from nltk.cluster import KMeansClusterer
 from Evaluator import Evaluator
+from nltk.cluster import KMeansClusterer
 
 class CategorizationEvaluator(Evaluator):
     def constructEmbedding(self,filepath,vectors,words,mapcate):
@@ -25,7 +23,6 @@ class CategorizationEvaluator(Evaluator):
 
         #print(np.array(embeddings).shape)
         return np.array(embeddings),labels_true,str(found)+"/"+str(count)
-
 
 
     def mapcluster(self,filepath):
@@ -70,7 +67,6 @@ class CategorizationEvaluator(Evaluator):
         for k, v in collection.items():
             print(k," : ",v)
         print("------------------------------------------")
-
 
     def process(self, vectors: dict):
         out = self.run(vectors)
