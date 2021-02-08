@@ -83,11 +83,11 @@ class SimilarityEvaluator(Evaluator):
             if(k["Test"] == "EN-RW-STANFORD"):
                 temp1 = k
                 results.append(
-                    { "Test": "Sparsness", "Spearman_Score": k["Spearman"], "OOV": k["OOV"], "Expand": []})
+                    { "Test": "Sparsness", "Score": k["Spearman"], "OOV": k["OOV"], "Expand": []})
             elif (k["Test"] == "MSD-1030"):
                 temp = k
                 results.append(
-                    {"Test": "Lexical Ambiguity", "Spearman_Score": k["Spearman"],"OOV": k["OOV"], "Expand": []})
+                    {"Test": "Lexical Ambiguity", "Score": k["Spearman"],"OOV": k["OOV"], "Expand": []})
             else:
                 sscore += k["Spearman"]
                 pscore += k["Pearson"]
@@ -98,7 +98,7 @@ class SimilarityEvaluator(Evaluator):
         self.pprint(result)
         result.remove(temp)
         result.remove(temp1)
-        results.append({"Test":"Multifactedness","Spearman_Score":str(sscore/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
+        results.append({"Test":"Multifactedness","Score":str(sscore/4),"OOV":str(notfound)+str("/")+str(total),"Expand":result})
 
         return results
 

@@ -156,7 +156,7 @@ class AnalogyEvaluator(Evaluator):
         #Sem_score1=  float(correct_sem)/count_sem
         Syn_score2 = float(correct_syn_mul) / count_syn
         #Sem_score2 = float(correct_sem_mul) / count_sem
-        result.append({"Test": "Non Conflation","Cos-mul-Score":Syn_score2*100,"OOV":str(oov2)+"/"+str(count_syn),"Expand":result_syn})
+        result.append({"Test": "Non Conflation","Score":Syn_score2*100,"OOV":str(oov2)+"/"+str(count_syn),"Expand":result_syn})
         #result.append({ "Test": "Sem analogy", "Cos-mul-Score":Sem_score2*100, "OOV":str(oov1)+"/"+str(count_sem),"Expand":result_sem})
         #collections.extend(result_sem)
         collections.extend(result_syn)

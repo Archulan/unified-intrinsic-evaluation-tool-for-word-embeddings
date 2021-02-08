@@ -70,6 +70,8 @@ def pprint(collections):
     print(x)
     print("---------------------------------------")
 
+
+
 def show_option_for_compare():
     outfile_path = "Repository.json"
     with open(outfile_path) as json_file:
@@ -126,7 +128,7 @@ print('Name       :', args.name)
 print('Model file :', args.model.name)
 print('Dimension  :', args.dim)
 print('Description:', args.des, '\n')
-show_option_for_compare()
+#show_option_for_compare()
 app = App(name=name,dim=dim, path=model,
           plugins=[SimilarityEvaluator(), AnalogyEvaluator(), CategorizationEvaluator(), OutlierEvaluator()])
 app.run()

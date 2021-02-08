@@ -38,6 +38,7 @@ class Window:
 
         self.readrepo()
 
+
         self.btn1 = Button(app, text='Compare')
         self.btn1.bind('<Button-1>', self.setproperties)
         self.btn1.place(x=400, y=125)
