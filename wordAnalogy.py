@@ -122,10 +122,10 @@ class AnalogyEvaluator(Evaluator):
         print("Word analogy test is running...............")
         collections=[]
         filenames = [
-            'currency.txt', 'capital-common-countries.txt', 'capital-world.txt',
-            'city-in-state.txt', 'family.txt', 'gram1-adjective-to-adverb.txt',
-            'gram2-opposite.txt', 'gram3-comparative.txt', 'gram4-superlative.txt',
-            'gram5-present-participle.txt', 'gram6-nationality-adjective.txt',
+            #'currency.txt', 'capital-common-countries.txt', 'capital-world.txt',
+            #'city-in-state.txt', 'family.txt',
+            'gram1-adjective-to-adverb.txt','gram2-opposite.txt', 'gram3-comparative.txt',
+            'gram4-superlative.txt','gram5-present-participle.txt', 'gram6-nationality-adjective.txt',
             'gram7-past-tense.txt', 'gram8-plural.txt', 'gram9-plural-verbs.txt'
         ]
         prefix = 'question-data'
@@ -135,36 +135,36 @@ class AnalogyEvaluator(Evaluator):
         oov1,oov2=0,0
         for file in tqdm(filenames):
           self.evaluate(file,prefix,W,vocab,ivocab,words,results)
-        semfiles=['currency','capital-common-countries','capital-world','city-in-state', 'family']
+        #semfiles=['currency','capital-common-countries','capital-world','city-in-state', 'family']
         correct_syn, correct_sem, count_syn, count_sem,correct_sem_mul,correct_syn_mul=0,0,0,0,0,0
 
         for k, v in results.items():
-          if (k in semfiles):
-              count_sem += v[2]
-              correct_sem += v[1]
-              oov1+=v[3]
-              correct_sem_mul += v[5]
-              result_sem.append({"Test":k,"Cos-add-Score": v[0],"Cos-mul-score":v[4],"OOV":str(v[3])+"/"+str(v[2]+v[3])})
-          else:
-              count_syn += v[2]
-              correct_syn += v[1]
-              oov2 += v[3]
-              correct_syn_mul+=v[5]
-              result_syn.append({"Test": k, "Cos-add-Score": v[0],"Cos-mul-score":v[4],"OOV": str(v[3])+"/"+str(v[2]+v[3])})
+          #if (k in semfiles):
+             # count_sem += v[2]
+             # correct_sem += v[1]
+             # oov1+=v[3]
+             # correct_sem_mul += v[5]
+              #result_sem.append({"Test":k,"Cos-add-Score": v[0],"Cos-mul-score":v[4],"OOV":str(v[3])+"/"+str(v[2]+v[3])})
+          #else:
+          count_syn += v[2]
+          correct_syn += v[1]
+          oov2 += v[3]
+          correct_syn_mul+=v[5]
+          result_syn.append({"Test": k, "Cos-add-Score": v[0],"Cos-mul-score":v[4],"OOV": str(v[3])+"/"+str(v[2]+v[3])})
 
         Syn_score1=  float(correct_syn)/count_syn
-        Sem_score1=  float(correct_sem)/count_sem
+        #Sem_score1=  float(correct_sem)/count_sem
         Syn_score2 = float(correct_syn_mul) / count_syn
-        Sem_score2 = float(correct_sem_mul) / count_sem
-        result.append({"Test": "Syn analogy","Cos-add-Score":Syn_score1*100,"Cos-mul-Score":Syn_score2*100,"OOV":str(oov2)+"/"+str(count_syn),"Expand":result_syn})
-        result.append({ "Test": "Sem analogy", "Cos-add-Score": Sem_score1*100,"Cos-mul-Score":Sem_score2*100, "OOV":str(oov1)+"/"+str(count_sem),"Expand":result_sem})
-        collections.extend(result_sem)
+        #Sem_score2 = float(correct_sem_mul) / count_sem
+        result.append({"Test": "Non Conflation","Score":Syn_score2*100,"OOV":str(oov2)+"/"+str(count_syn),"Expand":result_syn})
+        #result.append({ "Test": "Sem analogy", "Cos-mul-Score":Sem_score2*100, "OOV":str(oov1)+"/"+str(count_sem),"Expand":result_sem})
+        #collections.extend(result_sem)
         collections.extend(result_syn)
         self.pprint(collections)
         print("---------Overall analogy score------------")
-        print("Semantic analogy score using Cos-add method: ", Sem_score1*100)
+        #print("Semantic analogy score using Cos-add method: ", Sem_score1*100)
         print("Syntactic analogy score using Cos-add method:", Syn_score1* 100)
-        print("Semantic analogy score using Cos-mul method: ", Sem_score2 * 100)
+        #print("Semantic analogy score using Cos-mul method: ", Sem_score2 * 100)
         print("Syntactic analogy score using Cos-mul method:", Syn_score2 * 100)
         print("------------------------------------------")
         return result

@@ -43,7 +43,7 @@ class CategorizationEvaluator(Evaluator):
         homo=metrics.homogeneity_score(labels_true, labels_pred)
         complete=metrics.completeness_score(labels_true, labels_pred)
         v_score=metrics.v_measure_score(labels_true, labels_pred)
-        results["Test"] = "Concept categorization"
+        results["Test"] = "Handling Hubness"
         results["Score"] = v_score*100
         results["OOV"] = count
         self.pprint(results)
