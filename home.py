@@ -9,7 +9,9 @@ from distance import SimilarityEvaluator
 from wordAnalogy import AnalogyEvaluator
 from outlierDetection import OutlierEvaluator
 from conceptCategorization import CategorizationEvaluator
-
+from Comparision import Factory
+from CompareCategory import Factory as Fac
+import json
 # Create the parser
 input_parser = argparse.ArgumentParser(prog='Unified intrinsic evaluation tool for word embeddings',
                                        usage='%(prog)s [options] path',
@@ -69,6 +71,33 @@ def pprint(collections):
     print("---------------------------------------")
 
 
+
+def show_option_for_compare():
+    outfile_path = "Repository.json"
+    with open(outfile_path) as json_file:
+        repository = json.load(json_file)
+        repositories = repository["Repositories"]
+    print("Repos: ",len(repositories))
+    if len(repositories) >=2:
+        while (True):
+            option=input("If you want to continue with comparative evaluation \n Press 1 else press 2:")
+            if int(option) == 1:
+                opt2=input("you have 2 option to do comparative evalution \n Press 1 for compare models neighbourhood using given word \n"
+                           "Press 2 for compare the models by choosing set of category words \n")
+
+                if int(opt2) == 1:
+                    win = Factory()
+                elif int(opt2) == 2:
+                    win = Fac()
+                else:
+                    exit=input("Wrong input \n To exit press -1")
+                    if (int(exit) == -1):
+                        break
+            elif int(option) == 2:
+                break
+            else :
+                print("Wrong input")
+
 # arguments
 input_parser.add_argument('name',
                           type=str,
@@ -94,12 +123,13 @@ input_parser.add_argument('-v',
 args = input_parser.parse_args()
 model = args.model.name
 dim = args.dim
-
+name=args.name
 print('Name       :', args.name)
 print('Model file :', args.model.name)
 print('Dimension  :', args.dim)
 print('Description:', args.des, '\n')
-
-app = App(dim=dim, path=model,
+#show_option_for_compare()
+app = App(name=name,dim=dim, path=model,
           plugins=[SimilarityEvaluator(), AnalogyEvaluator(), CategorizationEvaluator(), OutlierEvaluator()])
 app.run()
+show_option_for_compare()

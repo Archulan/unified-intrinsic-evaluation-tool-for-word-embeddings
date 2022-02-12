@@ -214,10 +214,10 @@ class OutlierEvaluator(Evaluator):
             result[cluster.topic]=(scoreOPP_Cluster,accuracyCluster,len(cluster.outliers))
         scoreOPP = ((sumPositionsPercentage * 1.0) / countTotalOutliers) * 100
         accuracy = ((numOutliersDetected * 1.0) / countTotalOutliers) * 100.0
-        result1["Test"] ="Outlier Detection-Accuracy"
+        result1["Test"] ="Geometry"
         result1["Score"] =accuracy
         result1["OOV"] =str(countTotalOutliers)+"/"+str(TotalOutliers)
-        result2["Test"] ="Outlier Detection-OOP"
+        result2["Test"] ="Coherant neighbourhood"
         result2["Score"] =scoreOPP
         result2["OOV"] =str(countTotalOutliers)+"/"+str(TotalOutliers)
         collection.append(result1)
